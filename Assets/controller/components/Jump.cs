@@ -13,14 +13,11 @@ public class Jump : MonoBehaviour
     private void OnEnable()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _input = GetComponent<InputReader>();
     }
 
     private void FixedUpdate()
     {
-        if (_input.jump)
-        {
-            _rigidbody.AddForce((direction * strength), ForceMode.Impulse);
-        }
+        _rigidbody.AddForce((direction * strength), ForceMode.Impulse);
+        enabled = false;
     }
 }

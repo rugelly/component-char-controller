@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31cc2d9ece0de484398366b969b7b331, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  _horizSensitivity: 0
-  _vertSensitivity: 0
-  _crouchHeight: 0
+  _horizSensitivity: 2
+  _vertSensitivity: 2
+  _vertClampMax: 80
+  _vertClampMin: -60
+  _standHeight: 2
+  _crouchHeight: 1.4
   _crouchTime: 0
   _crouchTransitionCurve:
     serializedVersion: 2
@@ -47,5 +50,32 @@ MonoBehaviour:
   _sprintSpeed: 0
   _maxSprintVelocityChange: 0
   _sprintHorizontalInputReduction: 0
+  _sprintTransitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _crouchSpeed: 0
   _maxCrouchVelocityChange: 0
+  _jumpDirection: {x: 0, y: 1, z: 0}
+  _jumpStrength: 3
+  _ledgeReach: {x: 0, y: 0}

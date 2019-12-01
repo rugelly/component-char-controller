@@ -9,6 +9,12 @@ public class PlayerStats : ScriptableObject
     [SerializeField] private float _vertSensitivity; // mouse look sensitivity
     public float vertSensitivity {get => _vertSensitivity;}
 
+    [SerializeField] private float _vertClampMax; // mouse look vertical clamp range max
+    public float vertClampMax {get => _vertClampMax;}
+
+    [SerializeField] private float _vertClampMin; // mouse look vertical clamp range min
+    public float vertClampMin {get => _vertClampMin;}
+
     [SerializeField] private float _standHeight; // how tall when standing straight
     public float standHeight {get => _standHeight;}
 

@@ -10,6 +10,7 @@ public class SlideState : State
 
     #region components
     private PlayerStats _stats;
+    private InputReader _input;
     private Motor _motor;
     private Crouch _crouch;
     private Slide _slide;
@@ -18,6 +19,7 @@ public class SlideState : State
     public override void OnStateEnter()
     {
         _stats = stateMachine.GetComponent<StatHolder>().held;
+        _input = stateMachine.GetComponent<InputReader>();
 
         // turn off motor
         _motor = stateMachine.GetComponent<Motor>();
@@ -25,7 +27,7 @@ public class SlideState : State
 
         // crouch but with slide stats
         _crouch = stateMachine.GetComponent<Crouch>();
-        _crouch.isCrouching = true; // we want to go from standing, to crouch
+        _crouch.toHeight = _stats.crouchHeight;
         _crouch.transitionCurve = _stats.sprintTransitionCurve;
         _crouch.enabled = true;
 
@@ -38,14 +40,35 @@ public class SlideState : State
     {
         // motor re enabled
         _motor.enabled = true;
+
+        // un crouch you can see below its kind of hacky but itll work for now
+        // TODO: can "un crouching be handled at the entrance of each state?"
+        // SHOULD IT BE? maybe not
+        
     }
 
     public override void Tick()
     {
-        // go to crouch down state when crouch component turns itself off
-        if (!_crouch.enabled)
+        if (_slide.enabled == false)
         {
-            stateMachine.SetState(new CrouchState(stateMachine));
+            if (_input.moveVertical > 0 && _input.wasSprinting)
+            {
+                _crouch.toHeight = _stats.standHeight;
+                _crouch.transitionCurve = _stats.crouchTransitionCurve;
+                _crouch.enabled = true;
+                stateMachine.SetState(new SprintState(stateMachine));
+            }
+            else if (_input.hasMoveInput)
+            {
+                _crouch.toHeight = _stats.standHeight;
+                _crouch.transitionCurve = _stats.crouchTransitionCurve;
+                _crouch.enabled = true;
+                stateMachine.SetState(new NormalState(stateMachine));
+            }
+            else
+            {
+                stateMachine.SetState(new CrouchState(stateMachine));
+            }
         }
     }
 }

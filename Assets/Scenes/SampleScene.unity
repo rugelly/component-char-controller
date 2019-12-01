@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44658017, g: 0.49641502, b: 0.57482153, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -369,7 +369,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: NaN, y: 2.3509887e-38, z: NaN, w: 0.015625}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -398,12 +398,13 @@ GameObject:
   - component: {fileID: 731606414}
   - component: {fileID: 731606410}
   - component: {fileID: 731606409}
+  - component: {fileID: 731606422}
+  - component: {fileID: 731606415}
+  - component: {fileID: 731606416}
   - component: {fileID: 731606417}
   - component: {fileID: 731606411}
-  - component: {fileID: 731606415}
   - component: {fileID: 731606413}
   - component: {fileID: 731606412}
-  - component: {fileID: 731606416}
   - component: {fileID: 731606418}
   - component: {fileID: 731606421}
   - component: {fileID: 731606420}
@@ -492,7 +493,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731606408}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -512,6 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a293bb507d76b4dbb36808d5b8184c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _check: 0
 --- !u!114 &731606416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +532,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  isCrouching: 0
+  toHeight: 0
 --- !u!114 &731606417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,3 +598,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strength: 0
   direction: {x: 0, y: 0, z: 0}
+--- !u!114 &731606422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731606408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e564fe5e4dd9db448c30fbd3011b533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axes: 0

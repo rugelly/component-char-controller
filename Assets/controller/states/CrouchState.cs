@@ -30,21 +30,27 @@ public class CrouchState : State
     {
         #region get comps
         _motor = stateMachine.GetComponent<Motor>();
-        StatHolder temp = stateMachine.GetComponent<StatHolder>();
-        _stats = temp.held;
+        _stats = stateMachine.GetComponent<StatHolder>().held;
         _inputReader = stateMachine.GetComponent<InputReader>();
         _grounded = stateMachine.GetComponent<Grounded>();
         _jump = stateMachine.GetComponent<Jump>();
         #endregion
 
-        #region turn on crouch
+        /* #region turn on crouch
         _crouch = stateMachine.GetComponent<Crouch>();
         _crouch.isCrouching = true; // we want to go from standing, to crouch
         _crouch.transitionCurve = _stats.crouchTransitionCurve;
         _crouch.enabled = true;
 
         crouching = true; // true until the component has finished its work and disabled itself
-        #endregion
+        #endregion */
+
+        #region crouch init try 2
+        _crouch = stateMachine.GetComponent<Crouch>();
+        _crouch.toHeight = _stats.crouchHeight;
+        _crouch.transitionCurve = _stats.crouchTransitionCurve;
+        _crouch.enabled = true;
+        #endregion crouch init try 2
 
         #region change motor vals
         _motor.speed = _stats.crouchSpeed;
@@ -54,10 +60,8 @@ public class CrouchState : State
 
     public override void OnStateExit()
     {
-        #region cleanup
-        _crouch.enabled = true; // turn on crouch as we leave to get back to normal standing position
-        _crouch.isCrouching = false; // tell component to stand us back up
-        #endregion
+        // un crouch is hackily put in for transition to sprint and normal states
+        // TODO: can "un crouching be handled in a better way?"
     }
 
     public override void Tick()
@@ -68,26 +72,20 @@ public class CrouchState : State
         // change to air state
         if (!_grounded.check)
         {
-            _jump.enabled = false;
-
             stateMachine.SetState(new AirState(stateMachine));
         }
-        else // ability to jump is enabled (note this SHOULD grounded = false and exit state)
+        else if(!crouching && _inputReader.jump)
         {
             _jump.enabled = true;
+            _crouch.toHeight = _stats.standHeight;
+            _crouch.transitionCurve = _stats.crouchTransitionCurve;
+            _crouch.enabled = true;
         }
         #endregion jump & air goto
 
         #region actual crouch business
-        // so crouch state was entered
-        // component enabled to start off
-        // standing -> crouch, crouching == true
-        // component disabled, crouching == false
-        // IN CROUCH STATE, PHYSICALLY CROUCHED
-        // exiting the state enables the component to set player back to standing
-        // crouch -> standing
 
-        // true while component is active and, presumably, running
+        // true while component is active
         // false when its done and gone turned itself off
         if (_crouch.enabled)
         {
@@ -103,6 +101,9 @@ public class CrouchState : State
         // not in the middle of performing a crouch (either up or down), and crouch is pressed
         if (!crouching && _inputReader.crouch)
         {
+            _crouch.toHeight = _stats.standHeight;
+            _crouch.transitionCurve = _stats.crouchTransitionCurve;
+            _crouch.enabled = true;
             stateMachine.SetState(new NormalState(stateMachine));
         }
         #endregion normal goto
@@ -111,6 +112,9 @@ public class CrouchState : State
         // forward input and pressed sprint and not currently transitioning
         if (!crouching && _inputReader.moveVertical > 0 && _inputReader.sprint)
         {
+            _crouch.toHeight = _stats.standHeight;
+            _crouch.transitionCurve = _stats.crouchTransitionCurve;
+            _crouch.enabled = true;
             stateMachine.SetState(new SprintState(stateMachine));
         }
         #endregion sprint goto

@@ -2,10 +2,11 @@
 
 public class Grounded : MonoBehaviour
 {
+    [SerializeField]
     private bool _check;
     public bool check {get => _check;}
 
-    private Vector3 gravity = Vector3.down * 9.81f;
+    //private Vector3 gravity = Vector3.down * 9.81f;
 
     // TODO: some kind of function to keep "grounded == true" 
     // for a very small delay after not actually being grounded anymore
@@ -14,40 +15,16 @@ public class Grounded : MonoBehaviour
     /// new imp does it work right?
     // seems to work like:
     // true if collision stay with face normal pointing up? ish?
-    void OnCollisionStay(Collision other)
+    /* void OnCollisionStay(Collision other)
     {
-        _check = Vector3.Angle (other.contacts[0].normal, gravity) > 100f;
-    }
-
-    /// temp and kind of shitty imp
-    /* private void OnTriggerEnter()
-    {
-        _check = true;
-    }
-    private void OnTriggerExit()
-    {
-        _check = false;
+        _check = Vector3.Angle(other.contacts[0].normal, gravity) > 100f;
     } */
 
-    /// old and buggy ass imp
-    /* {
-        get
-        {
-            if (_check)
-            {
-                _check = false;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
+    RaycastHit hit;
+    Vector3 posMod = new Vector3(0, 0.5f, 0);
 
-    private void OnCollisionStay()
+    void FixedUpdate()
     {
-        _check = true;
+        _check = Physics.SphereCast(transform.position + posMod, 0.3f, -transform.up, out hit, 0.51f);
     }
-    */
 }

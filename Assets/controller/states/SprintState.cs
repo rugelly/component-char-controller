@@ -50,12 +50,10 @@ public class SprintState : State
         // change to air state
         if (!_grounded.check)
         {
-            _jump.enabled = false;
-
             _inputReader.wasSprinting = true;
             stateMachine.SetState(new AirState(stateMachine));
         }
-        else // ability to jump is enabled (note this SHOULD grounded = false and exit state)
+        else if(_inputReader.jump) // ability to jump is enabled (note this SHOULD grounded = false and exit state)
         {
             _jump.enabled = true;
         }
