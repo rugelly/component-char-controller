@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _horizSensitivity: 2
   _vertSensitivity: 2
-  _vertClampMax: 80
-  _vertClampMin: -60
+  _vertClampMax: 90
+  _vertClampMin: -80
   _standHeight: 2
   _crouchHeight: 1.4
-  _crouchTime: 0
+  _crouchTime: 0.1
   _crouchTransitionCurve:
     serializedVersion: 2
     m_Curve:
@@ -43,13 +43,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _airSpeed: 0
-  _maxAirVelocityChange: 0
-  _runSpeed: 0
-  _maxRunVelocityChange: 0
-  _sprintSpeed: 0
-  _maxSprintVelocityChange: 0
-  _sprintHorizontalInputReduction: 0
+  _airSpeed: 3
+  _maxAirVelocityChange: 1
+  _runSpeed: 7
+  _maxRunVelocityChange: 1
+  _sprintSpeed: 10
+  _maxSprintVelocityChange: 1
+  _sprintHorizontalInputReduction: 1
   _sprintTransitionCurve:
     serializedVersion: 2
     m_Curve:
@@ -74,8 +74,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _crouchSpeed: 0
-  _maxCrouchVelocityChange: 0
+  _crouchSpeed: 3
+  _maxCrouchVelocityChange: 1
   _jumpDirection: {x: 0, y: 1, z: 0}
-  _jumpStrength: 3
+  _jumpStrength: 7
   _ledgeReach: {x: 0, y: 0}
+  _slideLength: 0.6
+  _slideStrength: 5

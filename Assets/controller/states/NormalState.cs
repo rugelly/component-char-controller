@@ -13,6 +13,7 @@ public class NormalState : State
     private Motor _motor;
     private Grounded _grounded;
     private Jump _jump;
+    private Crouch _crouch;
     private InputReader _inputReader;
     private PlayerStats _stats;
     #endregion
@@ -24,11 +25,11 @@ public class NormalState : State
     public override void OnStateEnter()
     {
         _inputReader = stateMachine.GetComponent<InputReader>();
-        StatHolder temp = stateMachine.GetComponent<StatHolder>();
-        _stats = temp.held;
+        _stats = stateMachine.GetComponent<StatHolder>().held;
         _motor = stateMachine.GetComponent<Motor>();
         _grounded = stateMachine.GetComponent<Grounded>();
         _jump = stateMachine.GetComponent<Jump>();
+        _crouch = stateMachine.GetComponent<Crouch>();
 
         #region change motor vals
         _motor.speed = _stats.runSpeed;
@@ -78,6 +79,9 @@ public class NormalState : State
         // pressed crouch
         if (_inputReader.crouch)
         {
+            _crouch.toHeight = _stats.crouchHeight;
+            _crouch.speedOverride = 1f;
+            _crouch.enabled = true;
             stateMachine.SetState(new CrouchState(stateMachine));
         }
         #endregion crouch goto

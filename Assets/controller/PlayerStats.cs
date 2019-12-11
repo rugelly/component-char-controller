@@ -21,7 +21,7 @@ public class PlayerStats : ScriptableObject
     [SerializeField] private float _crouchHeight; // how tall when fully crouched
     public float crouchHeight {get => _crouchHeight;}
 
-    [SerializeField] private float _crouchTime; // how long to perform a full crouch
+    [SerializeField] private float _crouchTime; // how long to complete a crouch
     public float crouchTime {get => _crouchTime;}
 
     [SerializeField] private AnimationCurve _crouchTransitionCurve = AnimationCurve.EaseInOut(0f,0f,1f,1f);
@@ -55,7 +55,7 @@ public class PlayerStats : ScriptableObject
     public float crouchSpeed {get => _crouchSpeed;}
 
     [SerializeField] private float _maxCrouchVelocityChange;
-    public float maxCrouchVeloctiyChange {get => _maxCrouchVelocityChange;}
+    public float maxCrouchVelocityChange {get => _maxCrouchVelocityChange;}
 
     [SerializeField] private Vector3 _jumpDirection; // basic standard human "jump"
     public Vector3 jumpDirection {get => _jumpDirection;}
@@ -65,4 +65,10 @@ public class PlayerStats : ScriptableObject
 
     [SerializeField] private Vector2 _ledgeReach;
     public Vector2 ledgeReach {get => _ledgeReach;}
+
+    [SerializeField] private float _slideLength; // how long slide component stays active, preventing state transitions
+    public float slideLength {get => _slideLength;}
+
+    [SerializeField] private float _slideStrength; // amount of force slide applies
+    public float slideStrength {get => _slideStrength;}
 }

@@ -14,6 +14,7 @@ public class SprintState : State
     private PlayerStats _stats;
     private Grounded _grounded;
     private Jump _jump;
+    private Crouch _crouch;
     private InputReader _inputReader;
     #endregion
 
@@ -23,12 +24,12 @@ public class SprintState : State
 
     public override void OnStateEnter()
     {
-        StatHolder temp = stateMachine.GetComponent<StatHolder>();
-        _stats = temp.held;
+        _stats = stateMachine.GetComponent<StatHolder>().held;
         _motor = stateMachine.GetComponent<Motor>();
         _inputReader = stateMachine.GetComponent<InputReader>();
         _grounded = stateMachine.GetComponent<Grounded>();
         _jump = stateMachine.GetComponent<Jump>();
+        _crouch = stateMachine.GetComponent<Crouch>();
 
         #region change motor vals
         _motor.speed = _stats.sprintSpeed;
@@ -71,6 +72,9 @@ public class SprintState : State
         // pressed crouch while sprinting
         if (_inputReader.crouch)
         {
+            _crouch.toHeight = _stats.crouchHeight;
+            _crouch.speedOverride = _stats.crouchTime / 1.5f;
+            _crouch.enabled = true;
             stateMachine.SetState(new SlideState(stateMachine));
         }
         #endregion slide goto

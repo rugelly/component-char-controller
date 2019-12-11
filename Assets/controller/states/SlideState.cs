@@ -13,6 +13,7 @@ public class SlideState : State
     private InputReader _input;
     private Motor _motor;
     private Crouch _crouch;
+    private Headroom _headroom;
     private Slide _slide;
     #endregion
 
@@ -20,19 +21,17 @@ public class SlideState : State
     {
         _stats = stateMachine.GetComponent<StatHolder>().held;
         _input = stateMachine.GetComponent<InputReader>();
+        _crouch = stateMachine.GetComponent<Crouch>();
+        _headroom = stateMachine.GetComponent<Headroom>();
 
         // turn off motor
         _motor = stateMachine.GetComponent<Motor>();
         _motor.enabled = false;
 
-        // crouch but with slide stats
-        _crouch = stateMachine.GetComponent<Crouch>();
-        _crouch.toHeight = _stats.crouchHeight;
-        _crouch.transitionCurve = _stats.sprintTransitionCurve;
-        _crouch.enabled = true;
-
         // actually physics slide the player forward
         _slide = stateMachine.GetComponent<Slide>();
+        _slide.duration = _stats.slideLength;
+        _slide.strength = _stats.slideStrength;
         _slide.enabled = true;
     }
 
@@ -40,11 +39,6 @@ public class SlideState : State
     {
         // motor re enabled
         _motor.enabled = true;
-
-        // un crouch you can see below its kind of hacky but itll work for now
-        // TODO: can "un crouching be handled at the entrance of each state?"
-        // SHOULD IT BE? maybe not
-        
     }
 
     public override void Tick()
@@ -54,14 +48,12 @@ public class SlideState : State
             if (_input.moveVertical > 0 && _input.wasSprinting)
             {
                 _crouch.toHeight = _stats.standHeight;
-                _crouch.transitionCurve = _stats.crouchTransitionCurve;
                 _crouch.enabled = true;
                 stateMachine.SetState(new SprintState(stateMachine));
             }
-            else if (_input.hasMoveInput)
+            else if (_input.hasMoveInput && _headroom.check)
             {
                 _crouch.toHeight = _stats.standHeight;
-                _crouch.transitionCurve = _stats.crouchTransitionCurve;
                 _crouch.enabled = true;
                 stateMachine.SetState(new NormalState(stateMachine));
             }
