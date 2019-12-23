@@ -30,7 +30,7 @@ public class AirState : State
 
         #region change motor vals
         _motor.speed = _stats.airSpeed;
-        _motor.maxVelocityChange = _stats.maxAirVelocityChange;
+        _motor.accelRate = _stats.airAccelRate;
         _motor.sprintHorizontalInputReductionMult = 1f;
         #endregion
     }
@@ -43,7 +43,7 @@ public class AirState : State
     public override void Tick()
     {
         // have hit the ground? get outta here
-        if (_grounded.check)
+        if (_grounded.isGrounded)
         {
             // were we sprinting prior? back to sprint,
             // otherwise back to normal

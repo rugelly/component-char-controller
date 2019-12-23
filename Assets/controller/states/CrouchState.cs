@@ -46,7 +46,7 @@ public class CrouchState : State
 
         #region change motor vals
         _motor.speed = _stats.crouchSpeed;
-        _motor.maxVelocityChange = _stats.maxCrouchVelocityChange;
+        _motor.accelRate = _stats.crouchAccelRate;
         #endregion
     }
 
@@ -71,7 +71,7 @@ public class CrouchState : State
         // not grounded
         // turn off ability to jump
         // change to air state
-        if (!_grounded.check)
+        if (!_grounded.isGrounded)
         {
             stateMachine.SetState(new AirState(stateMachine));
         }

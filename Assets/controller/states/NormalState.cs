@@ -33,7 +33,7 @@ public class NormalState : State
 
         #region change motor vals
         _motor.speed = _stats.runSpeed;
-        _motor.maxVelocityChange = _stats.maxRunVelocityChange;
+        _motor.accelRate = _stats.runAccelRate;
         _motor.sprintHorizontalInputReductionMult = 1f;
         #endregion
 
@@ -56,7 +56,7 @@ public class NormalState : State
         // not grounded
         // turn off ability to jump
         // change to air state
-        if (!_grounded.check)
+        if (!_grounded.isGrounded)
         {
             _inputReader.wasSprinting = false;
             stateMachine.SetState(new AirState(stateMachine));

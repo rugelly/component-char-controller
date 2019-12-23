@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Motor : MonoBehaviour
+public class MotorHalfway : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private InputReader _inputReader;
@@ -15,6 +15,8 @@ public class Motor : MonoBehaviour
         _inputReader = GetComponent<InputReader>();
         _grounded = GetComponent<Grounded>();
         _collider = GetComponent<CapsuleCollider>();
+
+        minGroundDotProduct = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad); //***************//
     }
 
     [HideInInspector] public float speed; // max speed
@@ -26,9 +28,14 @@ public class Motor : MonoBehaviour
     private Vector3 addVelocityFromStandingOnRigidbody;
     private Vector3 wantedSpeed;
     private Vector3 accelMult; // 0-1 multiplier
+    private Vector3 prevMoveDir;
+    private Vector3 slopeHit;
     private bool hitGround;
-    private float stepsSinceLastGrounded;
-    private float slopeStickSpeed {get{return speed * 1.5f;}}
+    private bool stopOnSlope;
+
+    Vector3 contactNormal; //***************//
+    float maxGroundAngle = 35; //***************//
+    float minGroundDotProduct; //***************//
 
     private void Update()
     {
@@ -57,7 +64,7 @@ public class Motor : MonoBehaviour
             wantedSpeed = accelMult * speed;
         }
         else
-            hitGround = true; // reset this for next time it becomes grounded
+            hitGround = true; // reset this for next time it becomes grounded}
     }
 
     private void FixedUpdate()
@@ -81,7 +88,6 @@ public class Motor : MonoBehaviour
             } */
 
             localVelocity = transform.TransformDirection(localVelocity) + addVelocityFromStandingOnRigidbody;
-            localVelocity = Vector3.ProjectOnPlane(localVelocity, _grounded.contactNormal);
             _rigidbody.velocity = localVelocity;
 
             Debug.DrawRay(transform.position + Vector3.up * 2f, _rigidbody.velocity, Color.red);
@@ -98,9 +104,9 @@ public class Motor : MonoBehaviour
     /* public float footHeight = 0.08f; // base cast height
     public float maxStepHeight = 0.3f; // try to clear a ray over an imaginary step smaller than this
     public float forwardCheckLength = 0.1f; // max length to cast in front
-    public float downEdgeShift = 0.02f; // push the ray forward over the step a bit to be safe */
+    public float downEdgeShift = 0.02f; // push the ray forward over the step a bit to be safe
 
-    /* private Vector3 StairCheckNextStep()
+    private Vector3 StairCheckNextStep()
     {
         //                         ########
         //   ########     3        #      #     // check the height of the step, return hit
@@ -137,15 +143,15 @@ public class Motor : MonoBehaviour
 
     private void OnCollisionEnter(Collision col)
     {
-        CombineVelocity(col);
+        EvaluateCollision(col);
     }
 
     private void OnCollisionStay(Collision col)
     {
-        CombineVelocity(col);
+        EvaluateCollision(col);
     }
 
-    private void CombineVelocity(Collision col)
+    private void EvaluateCollision(Collision col)
     {
         float minimumHeight = _collider.bounds.min.y + _collider.radius;
         foreach (ContactPoint c in col.contacts)
