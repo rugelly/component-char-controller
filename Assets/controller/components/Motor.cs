@@ -69,6 +69,7 @@ public class Motor : MonoBehaviour
     private void FixedUpdate()
     {
         localVelocity = transform.InverseTransformDirection(_rigidbody.velocity);
+        
         if (_grounded.isGrounded)
         {
             Vector3 newLocalVelocity = localVelocity;
@@ -76,9 +77,12 @@ public class Motor : MonoBehaviour
             newLocalVelocity.x += localMoveDirection.x >= 0 ?
                 (wantedSpeed.x *  accelMult.x) - newLocalVelocity.x:
                 (wantedSpeed.x * -accelMult.x) - newLocalVelocity.x;
+
             newLocalVelocity.z += localMoveDirection.z >= 0 ?
                 (wantedSpeed.z *  accelMult.z) - newLocalVelocity.z:
                 (wantedSpeed.z * -accelMult.z) - newLocalVelocity.z;
+
+            newLocalVelocity = Vector3.ClampMagnitude(newLocalVelocity, speed);
 
             /* Quaternion lookAtNextStep = Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.position, StairCheckNextStep()), 0));
             localVelocity = lookAtNextStep * localVelocity; */
