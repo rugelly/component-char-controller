@@ -78,12 +78,9 @@ public class EdgeDetect : MonoBehaviour
             hitPoint + new Vector3(0, height * 0.2f, 0), 
             hitPoint + new Vector3(0, height * 0.8f, 0),
             0.5f, Vector3.up, height))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            
+            return true;
+        else
+            return false;
     }
 }

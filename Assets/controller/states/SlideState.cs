@@ -26,7 +26,8 @@ public class SlideState : State
 
         // turn off motor
         _motor = stateMachine.GetComponent<Motor>();
-        _motor.enabled = false;
+        //_motor.enabled = false;
+        _motor.disabledWorkAround = true;
 
         // actually physics slide the player forward
         _slide = stateMachine.GetComponent<Slide>();
@@ -38,7 +39,8 @@ public class SlideState : State
     public override void OnStateExit()
     {
         // motor re enabled
-        _motor.enabled = true;
+        //_motor.enabled = true;
+        _motor.disabledWorkAround = false;
     }
 
     public override void Tick()

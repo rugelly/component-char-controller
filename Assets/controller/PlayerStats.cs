@@ -107,4 +107,7 @@ public class PlayerStats : ScriptableObject
     private float _slideStrength; // amount of force slide applies
     public float slideStrength 
     {get => _slideStrength;}
+
+    public float slopeSnapSpeed
+    {get {return _sprintSpeed * 1.5f;}}
 }
