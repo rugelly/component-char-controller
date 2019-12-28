@@ -23,13 +23,15 @@ MonoBehaviour:
   _airAccelRate: 2
   _runSpeed: 5
   _runAccelRate: 3
-  _sprintSpeed: 5
-  _sprintAccelRate: 3
+  _sprintSpeed: 6.3
+  _sprintAccelRate: 4
   _sprintHorizontalInputReduction: 0.9
-  _crouchSpeed: 5
+  _crouchSpeed: 3
   _crouchAccelRate: 3
   _jumpDirection: {x: 0, y: 1, z: 0}
   _jumpStrength: 2
-  _ledgeReach: {x: 0, y: 0}
-  _slideLength: 0.4
-  _slideStrength: 1
+  _ledgeReach: {x: 0.65, y: 1.6}
+  _slideLength: 0.6
+  _slideStrength: 3
+  _climbTime: 0.7
+  _climbForce: 2

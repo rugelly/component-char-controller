@@ -110,4 +110,14 @@ public class PlayerStats : ScriptableObject
 
     public float slopeSnapSpeed
     {get {return _sprintSpeed * 1.5f;}}
+
+    [SerializeField]
+    private float _climbTime;
+    public float climbTime
+    {get => _climbTime;}
+
+    [SerializeField]
+    private float _climbForce;
+    public float climbForce
+    {get => _climbForce;}
 }

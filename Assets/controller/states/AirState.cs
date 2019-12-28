@@ -13,14 +13,15 @@ public class AirState : State
     private Climb _climb;
     private Crouch _crouch;
 
+    private bool toggle;
+
     public AirState(StateMachine stateMachine) : base(stateMachine)
     {}
 
     public override void OnStateEnter()
     {
         _inputReader = stateMachine.GetComponent<InputReader>();
-        StatHolder temp = stateMachine.GetComponent<StatHolder>();
-        _stats = temp.held;
+        _stats = stateMachine.GetComponent<StatHolder>().held;
         _motor = stateMachine.GetComponent<Motor>();
         _grounded = stateMachine.GetComponent<Grounded>();
         _edgeDetect = stateMachine.GetComponent<EdgeDetect>();
@@ -33,6 +34,8 @@ public class AirState : State
         _motor.accelRate = _stats.airAccelRate;
         _motor.sprintHorizontalInputReductionMult = 1f;
         #endregion
+
+        toggle = false;
     }
 
     public override void OnStateExit()
@@ -48,26 +51,26 @@ public class AirState : State
             // were we sprinting prior? back to sprint,
             // otherwise back to normal
             if (_inputReader.wasSprinting)
-            {
                 stateMachine.SetState(new SprintState(stateMachine));
-            }
             else
-            {
                 stateMachine.SetState(new NormalState(stateMachine));
-            }
         }
 
         if (_inputReader.moveVertical > 0)
         {
-            if (_edgeDetect.canClimbAndStand)
+            if (_edgeDetect.canClimbAndStand && !toggle)
             {
+                toggle = true;
                 _climb.enabled = true;
             }
-            else if (_edgeDetect.canClimbAndCrouch)
+            /* else if (_edgeDetect.canClimbAndCrouch && !toggle)
             {
+                toggle = true;
+                _crouch.speedOverride = 1f;
+                _crouch.toHeight = _stats.crouchHeight;
                 _crouch.enabled = true;
                 _climb.enabled = true;
-            }
+            } */
         }
     }
 }

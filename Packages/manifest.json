@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.siccity.gltfutility": "https://github.com/siccity/gltfutility.git",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ext.nunit": "1.0.0",
     "com.unity.ide.rider": "1.1.0",
@@ -40,5 +41,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.siccity.gltfutility": {
+      "hash": "1660ba7f0dfcd721d9f77cc8827a3848ca9f5f56",
+      "revision": "HEAD"
+    }
   }
 }
