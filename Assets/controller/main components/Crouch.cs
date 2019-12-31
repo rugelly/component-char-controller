@@ -1,60 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-#region old imp
-/* public class Crouch : MonoBehaviour
+public class Crouch : MonoBehaviour
 {
-    private PlayerStats _stats;
+    private InputReader _inputReader;
     private CapsuleCollider _collider;
-
-    [HideInInspector] public AnimationCurve transitionCurve; // changed from scripts that enable this behaviour
-    [HideInInspector] public float toHeight;
-    [HideInInspector] public float toCenter;
-
-    private float tmpHeight; // just a temp holder for readability
-    private float tmpCenter; // temp holder
-    private float timer;
-    private float startHeight;
-    private float startCenter;
+    private PlayerStats _stats;
 
     private void OnEnable()
     {
-        _stats = GetComponent<StatHolder>().held;
+        _inputReader = GetComponent<InputReader>();
         _collider = GetComponent<CapsuleCollider>();
-        timer = 0f;
-        startHeight = _collider.height;
-        startCenter = _collider.center.y;
+        _stats = GetComponent<StatHolder>().held;
 
-        if (toHeight == _stats.crouchHeight)
-            toCenter = 0.7f;
-        else
-            toCenter = 1f;
+        height = 1;
+        center = 1;
     }
+
+    public bool crouching {get{return _crouching;} set{_crouching = value;}}
+    public bool crouched {get{return _crouched;}}
+    public bool standing {get{return _standing;}}
+    private bool _crouching;
+    private bool _crouched, _standing;
+    private float height;
+    private float center;
+    private float percent;
 
     private void Update()
     {
-        timer += _stats.crouchTransSpeed * Time.deltaTime;
+        _crouched = _collider.height == _stats.crouchHeight;
+        _standing = _collider.height == _stats.standHeight;
+
+        // multiply the height by a multiplier that goes from percentage (crouchheight/standheight)-> 1(fully standing)
+        // center is the same
+        height += _crouching ? -_stats.crouchTime * Time.deltaTime : _stats.crouchTime * Time.deltaTime;
+        height = Mathf.Clamp(height, (_stats.crouchHeight / _stats.standHeight), 1);
+        center += _crouching ? -_stats.crouchTime * Time.deltaTime : _stats.crouchTime * Time.deltaTime;
+        center = Mathf.Clamp(center, (_stats.crouchHeight / _stats.standHeight), 1);
+
+        _collider.height = Mathf.Clamp(_stats.standHeight * height, _stats.crouchHeight, _stats.standHeight);
+        _collider.center = new Vector3(0, Mathf.Clamp(1 * center, (_stats.crouchHeight / _stats.standHeight), 1), 0);
     }
+}
 
-    private void FixedUpdate()
-    {
-        tmpHeight = Mathf.Lerp(startHeight, toHeight, timer);
-        _collider.height = Mathf.Clamp(tmpHeight, _stats.crouchHeight, _stats.standHeight);
-
-        // also shift the center so the transform position stays in the same spot
-        tmpCenter = Mathf.Lerp(startCenter, toCenter, timer);
-        _collider.center = new Vector3(0, tmpCenter, 0);
-
-        if (_collider.height == toHeight)
-        {
-            enabled = false;
-        }
-    }
-} */
-#endregion
-
-#region possibly better imp
+/* #region possibly better imp
 public class Crouch : MonoBehaviour
 {
     private PlayerStats _stats;
@@ -107,4 +95,4 @@ public class Crouch : MonoBehaviour
         enabled = false;
     }
 }
-#endregion
+#endregion */

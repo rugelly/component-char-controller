@@ -67,7 +67,7 @@ public class Grounded : MonoBehaviour
 
         groundContactCount = 1;
         _contactNormal = hit.normal;
-        float verticalPositionDelta = (hit.point.y - transform.position.y) * 3;
+        float verticalPositionDelta = (hit.point.y - transform.position.y) * 4;
         _rigidbody.velocity += new Vector3(0, verticalPositionDelta, 0);
         return true;
     }
@@ -84,7 +84,6 @@ public class Grounded : MonoBehaviour
 
     private void EvaluateCollisions(Collision col)
     {
-        float minimumHeight = _collider.bounds.min.y + _collider.radius;
         for (int i = 0; i < col.contactCount; i++)
         {
             Vector3 normal = col.GetContact(i).normal;

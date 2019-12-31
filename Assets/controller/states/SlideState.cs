@@ -21,10 +21,9 @@ public class SlideState : State
     {
         _stats = stateMachine.GetComponent<StatHolder>().held;
         _input = stateMachine.GetComponent<InputReader>();
-        _crouch = stateMachine.GetComponent<Crouch>();
         _headroom = stateMachine.GetComponent<Headroom>();
+        _crouch = stateMachine.GetComponent<Crouch>();
 
-        // turn off motor
         _motor = stateMachine.GetComponent<Motor>();
         //_motor.enabled = false;
         _motor.disabledWorkAround = true;
@@ -38,7 +37,6 @@ public class SlideState : State
 
     public override void OnStateExit()
     {
-        // motor re enabled
         //_motor.enabled = true;
         _motor.disabledWorkAround = false;
     }
@@ -49,14 +47,12 @@ public class SlideState : State
         {
             if (_input.moveVertical > 0 && _input.wasSprinting)
             {
-                _crouch.toHeight = _stats.standHeight;
-                _crouch.enabled = true;
+                _crouch.crouching = false;
                 stateMachine.SetState(new SprintState(stateMachine));
             }
             else if (_input.hasMoveInput && _headroom.check)
             {
-                _crouch.toHeight = _stats.standHeight;
-                _crouch.enabled = true;
+                _crouch.crouching = false;
                 stateMachine.SetState(new NormalState(stateMachine));
             }
             else

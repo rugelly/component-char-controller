@@ -12,6 +12,7 @@ public class AirState : State
     private EdgeDetect _edgeDetect;
     private Climb _climb;
     private Crouch _crouch;
+    private Headroom _headroom;
 
     private bool toggle;
 
@@ -28,6 +29,7 @@ public class AirState : State
         _edgeDetect.enabled = true;
         _climb = stateMachine.GetComponent<Climb>();
         _crouch = stateMachine.GetComponent<Crouch>();
+        _headroom = stateMachine.GetComponent<Headroom>();
 
         #region change motor vals
         _motor.speed = _stats.airSpeed;
@@ -45,15 +47,30 @@ public class AirState : State
 
     public override void Tick()
     {
-        // have hit the ground? get outta here
+        // uncrouch if you jump in air and theres room
+        if (_inputReader.jump && _headroom.check)
+            _crouch.crouching = false;
+
         if (_grounded.isGrounded)
         {
-            // were we sprinting prior? back to sprint,
-            // otherwise back to normal
-            if (_inputReader.wasSprinting)
-                stateMachine.SetState(new SprintState(stateMachine));
-            else
-                stateMachine.SetState(new NormalState(stateMachine));
+            if (_crouch.crouched)
+            {
+                stateMachine.SetState(new CrouchState(stateMachine));
+            }
+            
+            if (_headroom.check)
+            {
+                if (_inputReader.wasSprinting)
+                {
+                    _crouch.crouching = false;
+                    stateMachine.SetState(new SprintState(stateMachine));
+                }
+                else if (_crouch.standing || !_crouch.crouching)
+                {
+                    _crouch.crouching = false;
+                    stateMachine.SetState(new NormalState(stateMachine));
+                }
+            }
         }
 
         if (_inputReader.moveVertical > 0)
@@ -63,14 +80,6 @@ public class AirState : State
                 toggle = true;
                 _climb.enabled = true;
             }
-            /* else if (_edgeDetect.canClimbAndCrouch && !toggle)
-            {
-                toggle = true;
-                _crouch.speedOverride = 1f;
-                _crouch.toHeight = _stats.crouchHeight;
-                _crouch.enabled = true;
-                _climb.enabled = true;
-            } */
         }
     }
 }

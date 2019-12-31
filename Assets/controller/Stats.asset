@@ -18,7 +18,7 @@ MonoBehaviour:
   _vertClampMin: -80
   _standHeight: 2
   _crouchHeight: 1.4
-  _crouchTime: 0.1
+  _crouchTime: 2
   _airSpeed: 5
   _airAccelRate: 2
   _runSpeed: 5

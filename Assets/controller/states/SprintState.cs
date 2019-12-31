@@ -45,7 +45,6 @@ public class SprintState : State
 
     public override void Tick()
     {
-        #region jump & air goto
         // not grounded
         // turn off ability to jump
         // change to air state
@@ -54,29 +53,18 @@ public class SprintState : State
             _inputReader.wasSprinting = true;
             stateMachine.SetState(new AirState(stateMachine));
         }
-        else if(_inputReader.jump) // ability to jump is enabled (note this SHOULD grounded = false and exit state)
-        {
-            _jump.enabled = true;
-        }
-        #endregion jump
 
-        #region normal goto
         // not holding down forward
         if (_inputReader.moveVertical <= 0)
         {
             stateMachine.SetState(new NormalState(stateMachine));
         }
-        #endregion normal goto
 
-        #region slide goto
         // pressed crouch while sprinting
         if (_inputReader.crouch)
         {
-            _crouch.toHeight = _stats.crouchHeight;
-            _crouch.speedOverride = _stats.crouchTime / 1.5f;
-            _crouch.enabled = true;
+            _crouch.crouching = true;
             stateMachine.SetState(new SlideState(stateMachine));
         }
-        #endregion slide goto
     }
 }
