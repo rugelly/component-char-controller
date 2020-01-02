@@ -9,6 +9,12 @@ public class MouseLook : MonoBehaviour
     private Rigidbody _rigidbody;
     public GameObject camRootNode;
 
+    private void Awake()
+    {
+        // avoid character controller snapping to 0,0,0 rotation on start
+        rotation.y = transform.position.y;
+    }
+
     private void OnEnable()
     {
         _stats = GetComponent<StatHolder>().held;

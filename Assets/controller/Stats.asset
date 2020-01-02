@@ -19,7 +19,7 @@ MonoBehaviour:
   _standHeight: 2
   _crouchHeight: 1.4
   _crouchTime: 2
-  _airSpeed: 5
+  _airSpeed: 4
   _airAccelRate: 2
   _runSpeed: 5
   _runAccelRate: 3
@@ -35,3 +35,12 @@ MonoBehaviour:
   _slideStrength: 3
   _climbTime: 0.7
   _climbForce: 2
+  _maxFuel: 100
+  _hoverStrength: 12
+  _hoverInstantCost: 10
+  _hoverConstantCost: 20
+  _rocketStrength: 20
+  _rocketInstantCost: 5
+  _rocketConstantCost: 30
+  _boostStrength: 9
+  _boostInstantCost: 50

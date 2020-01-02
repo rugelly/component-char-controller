@@ -100,6 +100,9 @@ public class Motor : MonoBehaviour
         {
             if (_rigidbody.velocity.magnitude <= speed)
                 _rigidbody.AddForce(transform.TransformDirection(localMoveDirection * speed), ForceMode.Acceleration);
+
+            float slowdown = 0.2f * Time.deltaTime;
+            _rigidbody.velocity -= new Vector3(_rigidbody.velocity.x * slowdown, 0, _rigidbody.velocity.z * slowdown);
         }
         // TODO: movement only works as wanted with input settings "Gravity" set to 99 or whatever
     }

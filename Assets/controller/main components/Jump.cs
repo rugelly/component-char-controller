@@ -8,7 +8,8 @@ public class Jump : MonoBehaviour
     private PlayerStats _stats;
     private float strength {get{return _stats.jumpStrength;}}
     private Vector3 direction {get{return _stats.jumpDirection;}}
-    private bool can;
+    public bool can {get{return _can;}}
+    private bool _can;
     private int forgivenessTimer;
 
     private void OnEnable()
@@ -24,10 +25,10 @@ public class Jump : MonoBehaviour
         float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * strength);
         jumpSpeed = Mathf.Max(jumpSpeed - _rigidbody.velocity.y, 0);
 
-        if (_input.jump && can)
+        if (_input.jump && _can)
         {
             _rigidbody.AddForce(direction * jumpSpeed, ForceMode.VelocityChange);
-            can = false;
+            _can = false;
         }
     }
 
@@ -35,15 +36,15 @@ public class Jump : MonoBehaviour
     {
         if (_grounded.isGrounded)
         {
-            can = true;
+            _can = true;
             forgivenessTimer = 0;
         }    
         else
         {
             forgivenessTimer++;
             forgivenessTimer = Mathf.Clamp(forgivenessTimer, 0, 10);
-            if (forgivenessTimer > 8f)
-                can = false;
+            if (forgivenessTimer > 6f)
+                _can = false;
         }
     }
 }
