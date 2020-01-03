@@ -5,14 +5,14 @@ using StateMachineSimple;
 
 public class AirState : State
 {
-    private InputReader _inputReader;
+    private InputReader _input;
     private PlayerStats _stats;
     private Motor _motor;
     private Grounded _grounded;
     private EdgeDetect _edgeDetect;
     private Climb _climb;
     private Crouch _crouch;
-    private Headroom _headroom;
+    private FallDamage _falldmg;
 
     private bool toggle;
 
@@ -21,23 +21,22 @@ public class AirState : State
 
     public override void OnStateEnter()
     {
-        _inputReader = stateMachine.GetComponent<InputReader>();
+        _input = stateMachine.GetComponent<InputReader>();
         _stats = stateMachine.GetComponent<StatHolder>().held;
         _motor = stateMachine.GetComponent<Motor>();
         _grounded = stateMachine.GetComponent<Grounded>();
         _edgeDetect = stateMachine.GetComponent<EdgeDetect>();
         _edgeDetect.enabled = true;
         _climb = stateMachine.GetComponent<Climb>();
+        toggle = false;
         _crouch = stateMachine.GetComponent<Crouch>();
-        _headroom = stateMachine.GetComponent<Headroom>();
+        _falldmg = stateMachine.GetComponent<FallDamage>();
 
         #region change motor vals
         _motor.speed = _stats.airSpeed;
         _motor.accelRate = _stats.airAccelRate;
         _motor.sprintHorizontalInputReductionMult = 1f;
         #endregion
-
-        toggle = false;
     }
 
     public override void OnStateExit()
@@ -47,9 +46,35 @@ public class AirState : State
 
     public override void Tick()
     {
-        // uncrouch if you jump in air and theres room
-        if (_inputReader.jump && _headroom.check)
-            _crouch.crouching = false;
+        if (_crouch.crouching || _crouch.crouched)
+            stateMachine.SetState(new AirCrouchState(stateMachine));
+
+        if (_grounded.isGrounded)
+        {
+            if (_input.wasSprinting)
+                stateMachine.SetState(new SprintState(stateMachine));
+            else
+                stateMachine.SetState(new NormalState(stateMachine));
+        }
+
+        if (_input.moveVertical > 0)
+        {
+            if (_edgeDetect.canClimbAndStand && !toggle)
+            {
+                toggle = true;
+                _climb.enabled = true;
+            }
+        }
+
+        /* // uncrouch if you jump in air and theres room
+        if (_crouch.hasHeadroom)
+        {
+            _edgeDetect.enabled = true;
+            if (_input.jump)
+                _crouch.crouching = false;
+        }
+        else
+            _edgeDetect.enabled = false;
 
         if (_grounded.isGrounded)
         {
@@ -58,9 +83,9 @@ public class AirState : State
                 stateMachine.SetState(new CrouchState(stateMachine));
             }
             
-            if (_headroom.check)
+            if (_crouch.hasHeadroom)
             {
-                if (_inputReader.wasSprinting)
+                if (_input.wasSprinting)
                 {
                     _crouch.crouching = false;
                     stateMachine.SetState(new SprintState(stateMachine));
@@ -73,13 +98,13 @@ public class AirState : State
             }
         }
 
-        if (_inputReader.moveVertical > 0)
+        if (_input.moveVertical > 0)
         {
             if (_edgeDetect.canClimbAndStand && !toggle)
             {
                 toggle = true;
                 _climb.enabled = true;
             }
-        }
+        } */
     }
 }

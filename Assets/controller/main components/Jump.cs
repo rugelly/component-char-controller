@@ -11,6 +11,7 @@ public class Jump : MonoBehaviour
     public bool can {get{return _can;}}
     private bool _can;
     private int forgivenessTimer;
+    [HideInInspector] public bool disableOverride; // bypass weird behaviour when enabling/disabling component
 
     private void OnEnable()
     {
@@ -18,6 +19,8 @@ public class Jump : MonoBehaviour
         _input = GetComponent<InputReader>();
         _grounded = GetComponent<Grounded>();
         _stats = GetComponent<StatHolder>().held;
+
+        disableOverride = false;
     }
 
     private void Update()
@@ -25,10 +28,13 @@ public class Jump : MonoBehaviour
         float jumpSpeed = Mathf.Sqrt(-2f * Physics.gravity.y * strength);
         jumpSpeed = Mathf.Max(jumpSpeed - _rigidbody.velocity.y, 0);
 
-        if (_input.jump && _can)
+        if (!disableOverride)
         {
-            _rigidbody.AddForce(direction * jumpSpeed, ForceMode.VelocityChange);
-            _can = false;
+            if (_input.jump && _can)
+            {
+                _rigidbody.AddForce(direction * jumpSpeed, ForceMode.VelocityChange);
+                _can = false;
+            }
         }
     }
 
@@ -43,7 +49,7 @@ public class Jump : MonoBehaviour
         {
             forgivenessTimer++;
             forgivenessTimer = Mathf.Clamp(forgivenessTimer, 0, 10);
-            if (forgivenessTimer > 6f)
+            if (forgivenessTimer > 7f)
                 _can = false;
         }
     }

@@ -26,7 +26,7 @@ public class Motor : MonoBehaviour
     private Vector3 localVelocity;
     private Vector3 addVelocityFromStandingOnRigidbody;
     private Vector3 wantedSpeed;
-    private Vector3 accelMult; // 0-1 multiplier
+    [HideInInspector] public Vector3 accelMult; // 0-1 multiplier
     private bool hitGround;
     private bool removeYVelocity;
     private float stepsSinceLastGrounded;

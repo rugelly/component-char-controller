@@ -13,7 +13,6 @@ public class SlideState : State
     private InputReader _input;
     private Motor _motor;
     private Crouch _crouch;
-    private Headroom _headroom;
     private Slide _slide;
     #endregion
 
@@ -21,7 +20,6 @@ public class SlideState : State
     {
         _stats = stateMachine.GetComponent<StatHolder>().held;
         _input = stateMachine.GetComponent<InputReader>();
-        _headroom = stateMachine.GetComponent<Headroom>();
         _crouch = stateMachine.GetComponent<Crouch>();
 
         _motor = stateMachine.GetComponent<Motor>();
@@ -50,7 +48,7 @@ public class SlideState : State
                 _crouch.crouching = false;
                 stateMachine.SetState(new SprintState(stateMachine));
             }
-            else if (_input.hasMoveInput && _headroom.check)
+            else if (_input.hasMoveInput && _crouch.hasHeadroom)
             {
                 _crouch.crouching = false;
                 stateMachine.SetState(new NormalState(stateMachine));

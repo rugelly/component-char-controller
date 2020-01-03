@@ -36,7 +36,6 @@ public class AirJump : MonoBehaviour
     {
         can = _jump.can || _grounded.isGrounded ? false : true;
         currentFuel = _grounded.isGrounded ? maxFuel : currentFuel;
-        currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
 
         if (can && _input.jump)
         {
@@ -71,6 +70,7 @@ public class AirJump : MonoBehaviour
             currentFuel += 5 * Time.deltaTime;
 
         jumpJuiceRef.GetComponent<RectTransform>().localScale = new Vector3(currentFuel, 1, 1);
+        currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
     }
 
     private void FixedUpdate()

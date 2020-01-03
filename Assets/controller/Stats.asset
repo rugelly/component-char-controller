@@ -36,11 +36,11 @@ MonoBehaviour:
   _climbTime: 0.7
   _climbForce: 2
   _maxFuel: 100
-  _hoverStrength: 12
-  _hoverInstantCost: 10
+  _hoverStrength: 11.5
+  _hoverInstantCost: 8
   _hoverConstantCost: 20
-  _rocketStrength: 20
-  _rocketInstantCost: 5
+  _rocketStrength: 17
+  _rocketInstantCost: 8
   _rocketConstantCost: 30
   _boostStrength: 9
   _boostInstantCost: 50

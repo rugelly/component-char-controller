@@ -11,7 +11,7 @@ public class NormalState : State
 
     private Motor _motor;
     private Grounded _grounded;
-    private Jump _jump;
+    private FallDamage _falldmg;
     private Crouch _crouch;
     private InputReader _inputReader;
     private PlayerStats _stats;
@@ -23,6 +23,7 @@ public class NormalState : State
         _motor = stateMachine.GetComponent<Motor>();
         _crouch = stateMachine.GetComponent<Crouch>();
         _grounded = stateMachine.GetComponent<Grounded>();
+        _falldmg = stateMachine.GetComponent<FallDamage>();
 
         #region change motor vals
         _motor.speed = _stats.runSpeed;
@@ -40,6 +41,8 @@ public class NormalState : State
 
     public override void Tick()
     {
+        if (_falldmg.landingFirm || _falldmg.landingHard || _falldmg.landingSplat)
+            stateMachine.SetState(new HardLandingState(stateMachine));
         #region jump & air goto
         // not grounded
         // turn off ability to jump

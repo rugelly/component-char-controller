@@ -129,9 +129,9 @@ GameObject:
   - component: {fileID: 4941595922295932079}
   - component: {fileID: 4941595922295932075}
   - component: {fileID: 4941595922295932072}
+  - component: {fileID: 8634538201829916054}
   - component: {fileID: 2431683828686723537}
   - component: {fileID: 8517231316003740525}
-  - component: {fileID: 4941595922295932088}
   - component: {fileID: 4941595922295932087}
   - component: {fileID: 4941595922295932078}
   - component: {fileID: 4941595922295932081}
@@ -196,6 +196,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 2
+--- !u!114 &8634538201829916054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4941595922295932073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778168db95128b24db18e59dca146cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingFirm: 0
+  landingHard: 0
+  landingSplat: 0
 --- !u!114 &2431683828686723537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da11f9d6d0e22fe42965ed6b03e03b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  regenTimer: 0
+  shieldref: {fileID: 0}
+  hpref: {fileID: 0}
 --- !u!114 &8517231316003740525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,19 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentFuel: 0
   jumpType: 1
---- !u!114 &4941595922295932088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4941595922295932073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 420ed83b9ffad3f4ab3b5ee574571645, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _check: 0
+  jumpJuiceRef: {fileID: 0}
 --- !u!114 &4941595922295932087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +333,7 @@ MonoBehaviour:
   accelRate: 15
   sprintHorizontalInputReductionMult: 0
   disabledWorkAround: 0
+  accelMult: {x: 0, y: 0, z: 0}
 --- !u!114 &4941595922295932084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27bb5cdb7070a5c4ea86b915015ee41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableOverride: 0
 --- !u!114 &4941595922295932085
 MonoBehaviour:
   m_ObjectHideFlags: 0
