@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Headroom : MonoBehaviour
 {
-    // CAN THIS CONTROLLER UNCROUCH? Stay tuned to find out.
     private CapsuleCollider _collider;
     private PlayerStats _stats;
 
