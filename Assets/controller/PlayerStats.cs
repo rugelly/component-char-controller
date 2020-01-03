@@ -139,18 +139,4 @@ public class PlayerStats : ScriptableObject
     [SerializeField]private float _boostInstantCost; public float boostInstantCost{get{return _boostInstantCost;}}
     // [SerializeField]private float _boostConstantCost; public float boostConstantCost{get{return _boostConstantCost;}}
 
-    [Header("BASE")]
-    [SerializeField]private float _maxHealth; public float maxHealth{get{return _maxHealth;}}
-    [SerializeField]private float _maxShield; public float maxShield{get{return _maxShield;}}
-
-    /* [Header("MOVEMENT_BASE")]
-
-    [Header(">_RUN")]
-
-    [Header(">_SPRINT")]
-
-    [Header(">_CROUCH")]
-
-    [Header(">_AIRBORNE")] */
-
 }

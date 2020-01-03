@@ -129,9 +129,7 @@ GameObject:
   - component: {fileID: 4941595922295932079}
   - component: {fileID: 4941595922295932075}
   - component: {fileID: 4941595922295932072}
-  - component: {fileID: 2431683828686723537}
   - component: {fileID: 8517231316003740525}
-  - component: {fileID: 4941595922295932088}
   - component: {fileID: 4941595922295932087}
   - component: {fileID: 4941595922295932078}
   - component: {fileID: 4941595922295932081}
@@ -196,6 +194,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 2
+<<<<<<< HEAD
 --- !u!114 &2431683828686723537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +207,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da11f9d6d0e22fe42965ed6b03e03b40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  regenTimer: 0
+  shieldref: {fileID: 0}
+  hpref: {fileID: 0}
+=======
+>>>>>>> parent of 1c9b06e... air jumps refined, added fall dmg + temp ui bars
 --- !u!114 &8517231316003740525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,8 +224,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6212a4fbba07cf249a580a87f4c45fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxFuel: 10
   currentFuel: 0
+<<<<<<< HEAD
   jumpType: 1
+  jumpJuiceRef: {fileID: 0}
+=======
+  constantCost: 1.4
+  instantCost: 2
 --- !u!114 &4941595922295932088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _check: 0
+>>>>>>> parent of 1c9b06e... air jumps refined, added fall dmg + temp ui bars
 --- !u!114 &4941595922295932087
 MonoBehaviour:
   m_ObjectHideFlags: 0

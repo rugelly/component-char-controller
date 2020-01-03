@@ -12,7 +12,6 @@ public class AirState : State
     private EdgeDetect _edgeDetect;
     private Climb _climb;
     private Crouch _crouch;
-    private Headroom _headroom;
 
     private bool toggle;
 
@@ -29,7 +28,6 @@ public class AirState : State
         _edgeDetect.enabled = true;
         _climb = stateMachine.GetComponent<Climb>();
         _crouch = stateMachine.GetComponent<Crouch>();
-        _headroom = stateMachine.GetComponent<Headroom>();
 
         #region change motor vals
         _motor.speed = _stats.airSpeed;
@@ -48,8 +46,12 @@ public class AirState : State
     public override void Tick()
     {
         // uncrouch if you jump in air and theres room
-        if (_inputReader.jump && _headroom.check)
-            _crouch.crouching = false;
+        if (_crouch.hasHeadroom && _crouch.standing)
+        {
+            _edgeDetect.enabled = true;
+            if (_inputReader.jump)
+                _crouch.crouching = false;
+        }
 
         if (_grounded.isGrounded)
         {
@@ -58,7 +60,7 @@ public class AirState : State
                 stateMachine.SetState(new CrouchState(stateMachine));
             }
             
-            if (_headroom.check)
+            if (_crouch.hasHeadroom)
             {
                 if (_inputReader.wasSprinting)
                 {

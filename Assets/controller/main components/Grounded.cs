@@ -11,7 +11,6 @@ public class Grounded : MonoBehaviour
     private PlayerStats _stats;
     private Jump _jump;
     private InputReader _inputReader;
-    private Health _health;
     float minGroundDotProduct;
     int groundContactCount, steepContactCount;
     int stepsSinceLastGrounded;
@@ -32,7 +31,6 @@ public class Grounded : MonoBehaviour
         _stats = GetComponent<StatHolder>().held;
         _jump = GetComponent<Jump>();
         _inputReader = GetComponent<InputReader>();
-        _health = GetComponent<Health>();
     }
 
     private void FixedUpdate()
@@ -55,16 +53,16 @@ public class Grounded : MonoBehaviour
 
     private bool SnapToGround()
     {
-        if (stepsSinceLastGrounded > 2)
+        if (stepsSinceLastGrounded > 1)
             return false;
         float speed = _rigidbody.velocity.magnitude;
         if (speed > _stats.slopeSnapSpeed)
             return false;
-        if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.25f)) // 0.2 is a good length
+        if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.2f)) // 0.2 is a good length
             return false;
         if (hit.normal.y < minGroundDotProduct) // TODO: THIS PART SEEMS TO CAUSE UNWANTED BEHAVIOUR SOMETIMES??
             return false;
-        if (_inputReader.jump)
+        if (_jump.enabled || _inputReader.jump)
             return false;
 
         groundContactCount = 1;

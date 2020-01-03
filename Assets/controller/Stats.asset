@@ -44,5 +44,3 @@ MonoBehaviour:
   _rocketConstantCost: 30
   _boostStrength: 9
   _boostInstantCost: 50
-  _maxHealth: 100
-  _maxShield: 100

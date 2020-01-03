@@ -19,8 +19,9 @@ public class Crouch : MonoBehaviour
     public bool crouching {get{return _crouching;} set{_crouching = value;}}
     public bool crouched {get{return _crouched;}}
     public bool standing {get{return _standing;}}
+    public bool hasHeadroom {get{return _hasHeadroom;}}
     private bool _crouching;
-    private bool _crouched, _standing;
+    private bool _crouched, _standing, _hasHeadroom;
     private float height;
     private float center;
     private float percent;
@@ -39,60 +40,26 @@ public class Crouch : MonoBehaviour
 
         _collider.height = Mathf.Clamp(_stats.standHeight * height, _stats.crouchHeight, _stats.standHeight);
         _collider.center = new Vector3(0, Mathf.Clamp(1 * center, (_stats.crouchHeight / _stats.standHeight), 1), 0);
+
+        if (_collider.height != _stats.standHeight)
+            _hasHeadroom = CheckHeadroom();
+    }
+
+    private bool CheckHeadroom()
+    {
+        Debug.DrawRay(
+            transform.position + new Vector3(0, _collider.height - 0.4f, 0),
+            Vector3.up * (_stats.standHeight - _collider.height + 0.4f),
+            Color.red);
+
+        return Physics.SphereCast(
+            // cast right from the top of collider (but shift it down a bit just in case)
+            transform.position + new Vector3(0, _collider.height - 0.4f, 0),
+            // cast almost same size as player
+            _collider.radius * 0.9f,
+            Vector3.up,
+            out RaycastHit hit,
+            // length of ray dynamically scales (also shifted to match origin)
+            _stats.standHeight - _collider.height + 0.4f);
     }
 }
-
-/* #region possibly better imp
-public class Crouch : MonoBehaviour
-{
-    private PlayerStats _stats;
-    private CapsuleCollider _collider;
-
-    [HideInInspector] public float toHeight;
-    [HideInInspector] public float speedOverride;
-    private float toCenter;
-
-    private void OnEnable()
-    {
-        _stats = GetComponent<StatHolder>().held;
-        _collider = GetComponent<CapsuleCollider>();
-
-        #region EARLY EXIT
-        if (toHeight == _collider.height)
-            enabled = false;
-        #endregion
-
-        // base centers height off crouch height TODO: UN-HARDCODE THIS VALUE?
-        if (toHeight == _stats.crouchHeight)
-            toCenter = 0.7f;
-        else
-            toCenter = 1f;
-
-        // if has not been overriden, set to stats value
-        if (speedOverride == 1f)
-            speedOverride = _stats.crouchTime;
-
-        StartCoroutine(CrouchCoroutine(toCenter, toHeight));
-    }
-
-    private IEnumerator CrouchCoroutine(float center, float height)
-    {
-        // halfway through the duration instantly shrink half the way between standing and crouching
-        // 0.85 is halfway between 1 and 0.7
-        yield return new WaitForSeconds(speedOverride / 2f);
-        _collider.center = new Vector3(0, 0.85f, 0);
-        _collider.height = (_stats.crouchHeight + _stats.standHeight) / 2f;
-
-        // at the end of the duration, go to the requested end position
-        yield return new WaitForSeconds(speedOverride);
-        _collider.center = new Vector3(0, center, 0);
-        _collider.height = height;
-
-        // reset speed override
-        speedOverride = 1f;
-
-        // turn this component off
-        enabled = false;
-    }
-}
-#endregion */

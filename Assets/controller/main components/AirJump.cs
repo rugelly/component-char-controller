@@ -30,8 +30,6 @@ public class AirJump : MonoBehaviour
         maxFuel = _stats.maxFuel;
     }
 
-    public GameObject jumpJuiceRef; // TODO: REMOVE THIS
-
     private void Update()
     {
         can = _jump.can || _grounded.isGrounded ? false : true;
@@ -53,8 +51,7 @@ public class AirJump : MonoBehaviour
                         ActivatedInstantForce(0.5f, 0.4f, _stats.rocketInstantCost, 0f);
                         break;
                     case JumpType.boost:
-                        if (currentFuel >= _stats.boostInstantCost)
-                            InstantJumpForce(0.8f, 0.2f, _stats.boostInstantCost, _stats.boostStrength);
+                        InstantJumpForce(0.8f, 0.2f, _stats.boostInstantCost, _stats.boostStrength);
                         active = false;
                         break;
                 }
@@ -69,8 +66,6 @@ public class AirJump : MonoBehaviour
         // slowly regen fuel to hopefully save a fatal fall
         if (!active && !_grounded.isGrounded)
             currentFuel += 5 * Time.deltaTime;
-
-        jumpJuiceRef.GetComponent<RectTransform>().localScale = new Vector3(currentFuel, 1, 1);
     }
 
     private void FixedUpdate()
