@@ -43,12 +43,12 @@ public class SlideState : State
     {
         if (_slide.enabled == false)
         {
-            if (_input.moveVertical > 0 && _input.wasSprinting)
-            {
-                _crouch.crouching = false;
-                stateMachine.SetState(new SprintState(stateMachine));
-            }
-            else if (_input.hasMoveInput && _crouch.hasHeadroom)
+            // if (_input.moveVertical > 0 && _input.wasSprinting)
+            // {
+            //     _crouch.crouching = false;
+            //     stateMachine.SetState(new SprintState(stateMachine));
+            // }
+            if (_input.hasMoveInput && _crouch.hasHeadroom)
             {
                 _crouch.crouching = false;
                 stateMachine.SetState(new NormalState(stateMachine));

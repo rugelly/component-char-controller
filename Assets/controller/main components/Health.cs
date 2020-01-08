@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
@@ -68,8 +67,8 @@ public class Health : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
             Hurt(30);
 
-        shieldref.GetComponent<RectTransform>().localScale = new Vector3(shield, 1, 1);
-        hpref.GetComponent<RectTransform>().localScale = new Vector3(hp, 1, 1);
+        shieldref.GetComponent<RectTransform>().localScale = new Vector3(shield / 100, 1, 1);
+        hpref.GetComponent<RectTransform>().localScale = new Vector3(hp / 100, 1, 1);
 
         RegenTimer();
         _shield = Mathf.Clamp(_shield, 0, _stats.maxShield);

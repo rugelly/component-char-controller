@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 [CreateAssetMenu(menuName = "PlayerStats/Stats")]
 public class PlayerStats : ScriptableObject
 {
     [SerializeField] 
     private float _horizSensitivity; // mouse look sensitivity
     public float horizSensitivity 
-    {get{return _horizSensitivity;}}
+    {get{return _horizSensitivity;} set{_horizSensitivity = value;}}
 
     [SerializeField] 
     private float _vertSensitivity; // mouse look sensitivity
     public float vertSensitivity 
-    {get{return _vertSensitivity;}}
+    {get{return _vertSensitivity;} set{_vertSensitivity = value;}}
 
     [SerializeField] 
     private float _vertClampMax; // mouse look vertical clamp range max
@@ -123,6 +124,12 @@ public class PlayerStats : ScriptableObject
 
     [Header("AIR_JUMP_GLOBAL")]
     [SerializeField]private float _maxFuel; public float maxFuel{get{return _maxFuel;}}
+
+    public enum JumpType {hover = 0, rocket = 1, boost = 2}
+    [Header(">_TYPE")]
+    [SerializeField] private JumpType _jumpType = JumpType.boost;
+    public JumpType jumpType 
+    {get{return _jumpType;} set{_jumpType = value;}}
 
     [Header(">_HOVER")]
     [SerializeField]private float _hoverStrength; public float hoverStrength{get{return _hoverStrength;}}

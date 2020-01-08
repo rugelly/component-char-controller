@@ -15,9 +15,8 @@ public class AirJump : MonoBehaviour
     private bool can;
     private bool active;
 
-    public enum JumpType {hover, rocket, boost};
-    [SerializeField]
-    public JumpType jumpType = JumpType.hover;
+    private const int HOVER = 0, ROCKET = 1, BOOST = 2;
+    private int jumpType;
 
     private void OnEnable()
     {
@@ -34,6 +33,8 @@ public class AirJump : MonoBehaviour
 
     private void Update()
     {
+        jumpType = (int)_stats.jumpType;
+
         can = _jump.can || _grounded.isGrounded ? false : true;
         currentFuel = _grounded.isGrounded ? maxFuel : currentFuel;
 
@@ -45,13 +46,13 @@ public class AirJump : MonoBehaviour
             {
                 switch (jumpType)
                 {
-                    case JumpType.hover:
+                    case HOVER:
                         ActivatedInstantForce(0.8f, 0.9f, _stats.hoverInstantCost, 0);
                         break;
-                    case JumpType.rocket:
+                    case ROCKET:
                         ActivatedInstantForce(0.5f, 0.4f, _stats.rocketInstantCost, 0f);
                         break;
-                    case JumpType.boost:
+                    case BOOST:
                         if (currentFuel >= _stats.boostInstantCost)
                             InstantJumpForce(0.8f, 0.2f, _stats.boostInstantCost, _stats.boostStrength);
                         active = false;
@@ -69,7 +70,7 @@ public class AirJump : MonoBehaviour
         if (!active && !_grounded.isGrounded)
             currentFuel += 5 * Time.deltaTime;
 
-        jumpJuiceRef.GetComponent<RectTransform>().localScale = new Vector3(currentFuel, 1, 1);
+        jumpJuiceRef.GetComponent<RectTransform>().localScale = new Vector3(currentFuel / 100, 1, 1);
         currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
     }
 
@@ -79,13 +80,13 @@ public class AirJump : MonoBehaviour
         {
             switch (jumpType)
             {
-                case JumpType.hover:
+                case HOVER:
                     ActivatedConstantForce(_stats.hoverStrength, _stats.hoverConstantCost, Vector3.up);
                     break;
-                case JumpType.rocket:
+                case ROCKET:
                     ActivatedConstantForce(_stats.rocketStrength, _stats.rocketConstantCost, Vector3.up);
                     break;
-                case JumpType.boost:
+                case BOOST:
                     break;
             }
         }

@@ -84,9 +84,6 @@ public class Motor : MonoBehaviour
 
             newLocalVelocity = Vector3.ClampMagnitude(newLocalVelocity, speed);
 
-            /* Quaternion lookAtNextStep = Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.position, StairCheckNextStep()), 0));
-            localVelocity = lookAtNextStep * localVelocity; */
-
             Vector3 deltaLocalVelocity = newLocalVelocity - localVelocity;
             deltaLocalVelocity = transform.TransformDirection(deltaLocalVelocity);
             deltaLocalVelocity = Vector3.ProjectOnPlane(deltaLocalVelocity, _grounded.contactNormal);
@@ -106,46 +103,6 @@ public class Motor : MonoBehaviour
         }
         // TODO: movement only works as wanted with input settings "Gravity" set to 99 or whatever
     }
-    
-    /* public float footHeight = 0.08f; // base cast height
-    public float maxStepHeight = 0.3f; // try to clear a ray over an imaginary step smaller than this
-    public float forwardCheckLength = 0.1f; // max length to cast in front
-    public float downEdgeShift = 0.02f; // push the ray forward over the step a bit to be safe
-
-    private Vector3 StairCheckNextStep()
-    {
-        //                         ########
-        //   ########     3        #      #     // check the height of the step, return hit
-        //          #     |        #      #
-        //          #     V        #      #
-        //          ########       #      #
-        //                 #X------#--2   #     // if this ray hit nothing, OK to cast 3
-        //                 #       #      #
-        //                 #<------#--1 ###     // flat surface in front of movement? cast 2
-
-        RaycastHit frontStepHit;
-        RaycastHit downStepHit;
-        Vector3 castAheadStart = transform.position + (Vector3.up * footHeight);
-        Vector3 stepTopCheck = transform.position + (Vector3.up * maxStepHeight);
-
-        if (Physics.Raycast(castAheadStart, transform.forward, out frontStepHit, forwardCheckLength))
-        {
-            Debug.DrawRay(castAheadStart, transform.forward * forwardCheckLength, Color.cyan);
-            if (!Physics.Raycast(stepTopCheck, transform.forward, forwardCheckLength))
-            {
-                Debug.DrawRay(stepTopCheck, transform.forward * forwardCheckLength, Color.yellow);
-                Vector3 castDownStart = frontStepHit.point + (transform.forward * downEdgeShift) + (Vector3.up * 0.3f);
-                if (Physics.Raycast(castDownStart, Vector3.down, out downStepHit, maxStepHeight))
-                {
-                    Debug.DrawRay(castDownStart, Vector3.down * maxStepHeight, Color.magenta);
-                    return downStepHit.point;
-                }
-                else return Vector3.zero;
-            }
-            else return Vector3.zero;
-        }
-        else return Vector3.zero;
-    } */
 
     private void OnCollisionEnter(Collision col)
     {

@@ -16,10 +16,11 @@ public class SprintState : State
     private Jump _jump;
     private Crouch _crouch;
     private InputReader _inputReader;
+    private FallDamage _falldmg;
     #endregion
 
     #region components to disable
-    
+
     #endregion
 
     public override void OnStateEnter()
@@ -30,6 +31,7 @@ public class SprintState : State
         _grounded = stateMachine.GetComponent<Grounded>();
         _jump = stateMachine.GetComponent<Jump>();
         _crouch = stateMachine.GetComponent<Crouch>();
+        _falldmg = stateMachine.GetComponent<FallDamage>();
 
         #region change motor vals
         _motor.speed = _stats.sprintSpeed;
@@ -45,6 +47,9 @@ public class SprintState : State
 
     public override void Tick()
     {
+        if (_falldmg.landingFirm || _falldmg.landingHard || _falldmg.landingSplat)
+            stateMachine.SetState(new HardLandingState(stateMachine));
+        
         // not grounded
         // turn off ability to jump
         // change to air state

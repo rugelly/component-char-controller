@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31cc2d9ece0de484398366b969b7b331, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  _horizSensitivity: 2
-  _vertSensitivity: 2
+  _horizSensitivity: 0.28726116
+  _vertSensitivity: 0.28726116
   _vertClampMax: 90
   _vertClampMin: -80
   _standHeight: 2
@@ -36,6 +36,7 @@ MonoBehaviour:
   _climbTime: 0.7
   _climbForce: 2
   _maxFuel: 100
+  _jumpType: 1
   _hoverStrength: 11.5
   _hoverInstantCost: 8
   _hoverConstantCost: 20

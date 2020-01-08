@@ -43,6 +43,7 @@ public class NormalState : State
     {
         if (_falldmg.landingFirm || _falldmg.landingHard || _falldmg.landingSplat)
             stateMachine.SetState(new HardLandingState(stateMachine));
+        
         #region jump & air goto
         // not grounded
         // turn off ability to jump
