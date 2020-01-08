@@ -8,7 +8,7 @@ public class HardLandingState : State
     private PlayerStats _stats;
     private FallDamage _falldmg;
     private Jump _jump;
-
+    private Crouch _crouch;
     private float timeToExit;
     private float timer;
 
@@ -22,6 +22,9 @@ public class HardLandingState : State
         _stats = stateMachine.GetComponent<StatHolder>().held;
         _falldmg = stateMachine.GetComponent<FallDamage>();
         _jump = stateMachine.GetComponent<Jump>();
+        _crouch = stateMachine.GetComponent<Crouch>();
+
+        _crouch.crouching = true;
 
         if (_falldmg.landingFirm)
         {
@@ -65,6 +68,10 @@ public class HardLandingState : State
     {
         timer += 1 * Time.deltaTime;
         timer = Mathf.Clamp(timer, 0, timeToExit);
+
+        if (timer > (timeToExit * 0.75f))
+            _crouch.crouching = false;
+
         if (timer == timeToExit)
             stateMachine.SetState(new NormalState(stateMachine));
     }
